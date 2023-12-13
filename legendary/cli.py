@@ -582,9 +582,10 @@ class LegendaryCLI:
             logger.error(f'Game {app_name} is not currently installed!')
             exit(1)
 
-        if igame.is_dlc and not igame.executable:
-            logger.error(f'{app_name} is DLC without an executable; please launch the base game instead!')
-            exit(1)
+        if igame.is_dlc:
+            if not igame.executable and not self.core.get_game(app_name).is_launchable_addon:
+                logger.error(f'{app_name} is non-runnable DLC; please launch the base game instead!')
+                exit(1)
 
         if not os.path.exists(igame.install_path):
             logger.fatal(f'Install directory "{igame.install_path}" appears to be deleted, cannot launch {app_name}!')

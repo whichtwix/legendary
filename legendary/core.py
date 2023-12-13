@@ -693,6 +693,11 @@ class LegendaryCore:
         install = self.lgd.get_installed_game(app_name)
         game = self.lgd.get_game_meta(app_name)
 
+        # If it's a runnable DLC use the base game for the install information
+        if not install.executable and game.is_launchable_addon:
+            main_app_name = game.metadata['mainGameItem']['releaseInfo'][0]['appId']
+            install = self.lgd.get_installed_game(main_app_name)
+
         # Disable wine for non-Windows executables (e.g. native macOS)
         if not install.platform.startswith('Win'):
             disable_wine = True
