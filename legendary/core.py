@@ -686,9 +686,10 @@ class LegendaryCore:
                               disable_wine: bool = False,
                               executable_override: str = None,
                               crossover_app: str = None,
-                              crossover_bottle: str = None) -> LaunchParameters:
+                              crossover_bottle: str = None,
+                              addon_app_name: str = None) -> LaunchParameters:
         install = self.lgd.get_installed_game(app_name)
-        game = self.lgd.get_game_meta(app_name)
+        game = self.lgd.get_game_meta(addon_app_name if addon_app_name else app_name)
 
         # If it's a runnable DLC use the base game for the install information
         if not install.executable and game.is_launchable_addon:
