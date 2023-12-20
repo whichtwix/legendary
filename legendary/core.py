@@ -254,13 +254,10 @@ class LegendaryCore:
             return self._login(lock, force_refresh=force_refresh)
 
     def update_check_enabled(self):
-        return not self.lgd.config.getboolean('Legendary', 'disable_update_check', fallback=False)
+        return False
 
     def update_notice_enabled(self):
-        if self.force_show_update:
-            return True
-        return not self.lgd.config.getboolean('Legendary', 'disable_update_notice',
-                                              fallback=not is_windows_mac_or_pyi())
+        return False
 
     def check_for_updates(self, force=False):
         def version_tuple(v):
@@ -709,7 +706,7 @@ class LegendaryCore:
 
         if executable_override or (executable_override := self.lgd.config.get(app_name, 'override_exe', fallback=None)):
             game_exe = executable_override.replace('\\', '/')
-            exe_path = os.path.join(install.install_path, game_exe)
+            exe_path = game_exe
             if not os.path.exists(exe_path):
                 raise ValueError(f'Executable path is invalid: {exe_path}')
         else:
@@ -717,6 +714,8 @@ class LegendaryCore:
             exe_path = os.path.join(install.install_path, game_exe)
 
         working_dir = os.path.split(exe_path)[0]
+        if working_dir == '':
+            working_dir = os.getcwd()
 
         params = LaunchParameters(
             game_executable=game_exe, game_directory=install.install_path, working_directory=working_dir,

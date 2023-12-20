@@ -485,6 +485,8 @@ optional arguments:
                         use with a lan cache
   --with-dlcs           Automatically install all DLCs with the base game
   --skip-dlcs           Do not ask about installing DLCs.
+  --abort-if-any-installed
+                        Aborts the install if any version of the game is installed
 
 
 Command: launch
@@ -514,7 +516,7 @@ optional arguments:
                         include env vars)
   --reset-defaults      Reset config settings for app and exit
   --override-exe <exe path>
-                        Override executable to launch (relative path)
+                        Override executable to launch (absolute path)
   --origin              Launch Origin to activate or run the game.
   --json                Print launch information as JSON and exit
   --wine <wine binary>  Set WINE binary to use to launch the app

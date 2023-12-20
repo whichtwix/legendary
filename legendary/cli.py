@@ -811,6 +811,11 @@ class LegendaryCLI:
             return
 
         args.app_name = self._resolve_aliases(args.app_name)
+        
+        if self.core.is_installed(args.app_name) and args.abort_if_installed:
+            logger.info(f'{args.app_name} is installed and cancel has been requested, aborting...')
+            return
+
         if self.core.is_installed(args.app_name):
             igame = self.core.get_installed_game(args.app_name)
             args.platform = igame.platform
@@ -2790,6 +2795,8 @@ def main():
                                 help='Do not ask about installing DLCs.')
     install_parser.add_argument('--bind', dest='bind_ip', action='store', metavar='<IPs>', type=str,
                                 help='Comma-separated list of IPs to bind to for downloading')
+    install_parser.add_argument('--abort-if-any-installed', dest='abort_if_installed', action='store_true',
+                                help='Aborts the install if any version of the game is installed')
 
     uninstall_parser.add_argument('--keep-files', dest='keep_files', action='store_true',
                                   help='Keep files but remove game from Legendary database')
@@ -2814,7 +2821,7 @@ def main():
     launch_parser.add_argument('--reset-defaults', dest='reset_defaults', action='store_true',
                                help='Reset config settings for app and exit')
     launch_parser.add_argument('--override-exe', dest='executable_override', action='store', metavar='<exe path>',
-                               help='Override executable to launch (relative path)')
+                               help='Override executable to launch (absolute path)')
     launch_parser.add_argument('--origin', dest='origin', action='store_true',
                                help='Launch Origin to activate or run the game.')
     launch_parser.add_argument('--json', dest='json', action='store_true',
@@ -3030,6 +3037,7 @@ def main():
             if double_clicked():
                 print('Please note that this is not the intended way to run Legendary.')
                 print('Follow https://github.com/derrod/legendary/wiki/Setup-Instructions to set it up properly')
+                print('THIS IS A MODIFIED VERSION OF LEGENDARY - ALTERED BEHAVIOR OF THE --override-exe ARGUMENT')
                 subprocess.Popen(['cmd', '/K', 'echo>nul'])
         return
 
