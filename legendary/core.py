@@ -1311,7 +1311,8 @@ class LegendaryCore:
                          repair: bool = False, repair_use_latest: bool = False,
                          disable_delta: bool = False, override_delta_manifest: str = '',
                          egl_guid: str = '', preferred_cdn: str = None,
-                         disable_https: bool = False, bind_ip: str = None) -> (DLManager, AnalysisResult, ManifestMeta):
+                         disable_https: bool = False, bind_ip: str = None,
+                         no_install: bool = False) -> (DLManager, AnalysisResult, ManifestMeta):
         # load old manifest
         old_manifest = None
 
@@ -1328,7 +1329,8 @@ class LegendaryCore:
             if not old_bytes:
                 self.log.error(f'Could not load old manifest, patching will not work!')
             else:
-                old_manifest = self.load_manifest(old_bytes)
+                if not no_install:
+                    old_manifest = self.load_manifest(old_bytes)
 
         base_urls = game.base_urls
 
@@ -1379,11 +1381,12 @@ class LegendaryCore:
                 self.log.debug(f'No Delta manifest received from CDN.')
 
         # reuse existing installation's directory
-        if igame := self.get_installed_game(base_game.app_name if base_game else game.app_name):
-            install_path = igame.install_path
+        egame = self.get_installed_game(base_game.app_name if base_game else game.app_name)
+        if egame is not None and not no_install:
+            install_path = egame.install_path
             # make sure to re-use the epic guid we assigned on first install
-            if not game.is_dlc and igame.egl_guid:
-                egl_guid = igame.egl_guid
+            if not game.is_dlc and egame.egl_guid:
+                egl_guid = egame.egl_guid
         else:
             if not game_folder:
                 if game.is_dlc:

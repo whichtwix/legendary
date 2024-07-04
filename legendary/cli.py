@@ -984,7 +984,8 @@ class LegendaryCLI:
                                                           override_delta_manifest=args.override_delta_manifest,
                                                           preferred_cdn=args.preferred_cdn,
                                                           disable_https=args.disable_https,
-                                                          bind_ip=args.bind_ip)
+                                                          bind_ip=args.bind_ip,
+                                                          no_install=args.no_install)
 
         # game is either up-to-date or hasn't changed, so we have nothing to do
         if not analysis.dl_size:
