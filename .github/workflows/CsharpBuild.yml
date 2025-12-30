@@ -45,10 +45,13 @@ jobs:
       run: msbuild $env:Test_Project_Path /t:publish /p:Configuration=$env:Configuration
       env:
         Configuration: ${{ matrix.configuration }}
+    
+    - name: Rename file
+      run: mv CSharpLegendary\bin\Release\net10.0\win-x64\publish\CSharpLegendary.exe CSharpLegendary\bin\Release\net10.0\win-x64\publish\EpicGamesStarter.exe
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v6
       with:
         name: EpicGamesStarter.exe
-        path: CSharpLegendary\bin\Release\net10.0\win-x64\publish\CSharpLegendary.exe
+        path: CSharpLegendary\bin\Release\net10.0\win-x64\publish\EpicGamesStarter.exe
