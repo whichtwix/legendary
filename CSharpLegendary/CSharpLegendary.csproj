@@ -8,6 +8,8 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
+    <Configuration>Release</Configuration>
+    <SelfContained>true</SelfContained>
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
